@@ -1,6 +1,6 @@
 from tkinter import *
 import math
-# ---------------------------- CONSTANTS ------------------------------- #
+
 PINK = "#e2979c"
 RED = "#e7305b"
 GREEN = "#9bdeac"
@@ -13,8 +13,6 @@ reps = 0
 timer = None
 
 
-# ---------------------------- TIMER RESET ------------------------------- #
-
 def reset_timer():
     window.after_cancel(timer)
     title_label.config(text='Timer')
@@ -25,7 +23,6 @@ def reset_timer():
     checkMarkLabel.config(text='')
     btn_start.config(state='active')
 
-# ---------------------------- TIMER MECHANISM ------------------------------- #
 
 def start_timer():
     window.attributes('-topmost', 0)
@@ -47,52 +44,33 @@ def start_timer():
         title_label.config(text="Work", fg=GREEN)
 
 
-
 def count_down(count):
+    count_min = math.floor(count / 60)
+    count_sec = count % 60
 
-        count_min = math.floor(count / 60)
-        count_sec = count % 60
+    if count_sec > 0:
+        btn_start.config(state='disabled')
 
-        if count_sec > 0:
-            btn_start.config(state='disabled')
+    if count_sec < 10:
+        count_sec = f"0{count_sec}"
 
-        if count_sec < 10:
-            count_sec = f"0{count_sec}"
-
-
-
-
-        canvas.itemconfig(timer_text, text=f"{count_min}:{count_sec}")
-        if count > 0:
-            global timer
-            timer = window.after(1000, count_down, count -1)
-        else:
-            window.attributes('-topmost', 1)
-            start_timer()
-            marks = ""
-            work_sessions = math.floor(reps / 2)
-            for _ in range(0, work_sessions):
-                marks += '✔'
-            checkMarkLabel.config(text=marks)
+    canvas.itemconfig(timer_text, text=f"{count_min}:{count_sec}")
+    if count > 0:
+        global timer
+        timer = window.after(1000, count_down, count -1)
+    else:
+        window.attributes('-topmost', 1)
+        start_timer()
+        marks = ""
+        work_sessions = math.floor(reps / 2)
+        for _ in range(0, work_sessions):
+            marks += '✔'
+        checkMarkLabel.config(text=marks)
 
 
-
-
-# ---------------------------- COUNTDOWN MECHANISM -------------------------------
-
-
-
-
-
-
-# ---------------------------- UI SETUP ------------------------------- #
 window = Tk()
 window.title('Pomodoro Timer')
 window.config(padx=100, pady=50, bg=YELLOW)
-
-
-
-
 
 canvas = Canvas(width=200, height=224, bg=YELLOW, highlightthickness=0)
 tomato_img = PhotoImage(file='tomato.png')
@@ -101,7 +79,6 @@ timer_text = canvas.create_text(100, 130, text="5",fill="white", font=(FONT_NAME
 canvas.grid(column=1,row=1)
 title_label = Label(text="Timer", font=(FONT_NAME, 36, 'bold'), fg=GREEN, bg=YELLOW)
 title_label.grid(column=1, row=0)
-
 
 
 btn_start = Button(text="Start", command=start_timer)
