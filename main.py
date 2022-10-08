@@ -6,7 +6,7 @@ RED = "#e7305b"
 GREEN = "#9bdeac"
 YELLOW = "#f7f5dd"
 FONT_NAME = "Courier"
-WORK_MIN = 1
+WORK_MIN = 15
 SHORT_BREAK_MIN = 5
 LONG_BREAK_MIN = 20
 reps = 0
@@ -28,7 +28,7 @@ def start_timer():
     window.attributes('-topmost', 0)
     global reps
     reps += 1
-    work_sec = (WORK_MIN * 5)
+    work_sec = (WORK_MIN * 60)
     short_break_sec = (SHORT_BREAK_MIN * 60)
     long_break_sec = (LONG_BREAK_MIN * 60)
     if reps % 8 == 0:
